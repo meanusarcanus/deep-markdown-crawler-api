@@ -1,0 +1,319 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "DeepCrawl AI \u2014 Universal Website to Markdown Crawler Pro API",
+    "description": "Crawl entire documentation portals, sitemaps, and domains into clean, LLM-ready Markdown without ads or noise for RAG and AI Agents.",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/api/v1/health": {
+      "get": {
+        "summary": "Health Check",
+        "operationId": "health_check_api_v1_health_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/scrape": {
+      "post": {
+        "summary": "Scrape Single Url",
+        "description": "Scrape single webpage and convert into clean GitHub-Flavored Markdown.",
+        "operationId": "scrape_single_url_api_v1_scrape_post",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ScrapeRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "summary": "Scrape Single Url Get",
+        "description": "Quick GET endpoint for single-page Markdown conversion.",
+        "operationId": "scrape_single_url_get_api_v1_scrape_get",
+        "parameters": [
+          {
+            "name": "url",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "Target URL",
+              "examples": [
+                "https://fastapi.tiangolo.com/tutorial/"
+              ],
+              "title": "Url"
+            },
+            "description": "Target URL"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/crawl": {
+      "post": {
+        "summary": "Crawl Domain Endpoint",
+        "description": "Deep recursive domain crawler for entire documentation sites.",
+        "operationId": "crawl_domain_endpoint_api_v1_crawl_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CrawlRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/map": {
+      "post": {
+        "summary": "Map Domain Endpoint",
+        "description": "Fast discovery of internal URLs across a domain without fetching full pages.",
+        "operationId": "map_domain_endpoint_api_v1_map_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MapRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "CrawlRequest": {
+        "properties": {
+          "start_url": {
+            "type": "string",
+            "title": "Start Url",
+            "description": "Root URL or documentation hub to crawl recursively.",
+            "example": "https://fastapi.tiangolo.com/tutorial/"
+          },
+          "max_pages": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Max Pages",
+            "description": "Maximum number of pages to crawl (1 to 25).",
+            "default": 5
+          },
+          "max_depth": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Max Depth",
+            "description": "Maximum depth of links to follow (1 to 3).",
+            "default": 2
+          }
+        },
+        "type": "object",
+        "required": [
+          "start_url"
+        ],
+        "title": "CrawlRequest"
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "type": "array",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "title": "HTTPValidationError"
+      },
+      "MapRequest": {
+        "properties": {
+          "start_url": {
+            "type": "string",
+            "title": "Start Url",
+            "description": "Root domain URL to map.",
+            "example": "https://fastapi.tiangolo.com/"
+          },
+          "max_links": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Max Links",
+            "description": "Maximum number of URLs to discover.",
+            "default": 50
+          }
+        },
+        "type": "object",
+        "required": [
+          "start_url"
+        ],
+        "title": "MapRequest"
+      },
+      "ScrapeRequest": {
+        "properties": {
+          "url": {
+            "type": "string",
+            "title": "Url",
+            "description": "Target webpage URL to scrape and convert into Markdown.",
+            "example": "https://fastapi.tiangolo.com/tutorial/"
+          }
+        },
+        "type": "object",
+        "required": [
+          "url"
+        ],
+        "title": "ScrapeRequest"
+      },
+      "ValidationError": {
+        "properties": {
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Location"
+          },
+          "msg": {
+            "type": "string",
+            "title": "Message"
+          },
+          "type": {
+            "type": "string",
+            "title": "Error Type"
+          },
+          "input": {
+            "title": "Input"
+          },
+          "ctx": {
+            "type": "object",
+            "title": "Context"
+          }
+        },
+        "type": "object",
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError"
+      }
+    }
+  }
+}

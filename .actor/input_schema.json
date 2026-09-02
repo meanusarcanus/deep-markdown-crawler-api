@@ -1,0 +1,31 @@
+{
+  "title": "DeepCrawl AI Input Schema",
+  "type": "object",
+  "schemaVersion": 1,
+  "properties": {
+    "start_urls": {
+      "title": "Start URLs or Domains to Crawl",
+      "type": "array",
+      "description": "List of URLs or doc portal paths to crawl and convert into clean Markdown.",
+      "editor": "stringList",
+      "prefill": [
+        "https://fastapi.tiangolo.com/tutorial/"
+      ]
+    },
+    "max_pages_per_domain": {
+      "title": "Max Pages per Domain",
+      "type": "integer",
+      "description": "Maximum number of pages to crawl per domain (1 to 50).",
+      "default": 10,
+      "editor": "number"
+    },
+    "max_depth": {
+      "title": "Max Crawl Depth",
+      "type": "integer",
+      "description": "Link traversal depth (1 to 3).",
+      "default": 2,
+      "editor": "number"
+    }
+  },
+  "required": ["start_urls"]
+}

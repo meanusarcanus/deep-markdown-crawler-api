@@ -1,0 +1,47 @@
+{
+  "actorSpecification": 1,
+  "title": "Dataset schema of DeepCrawl AI Universal Markdown Crawler",
+  "fields": {
+    "url": {
+      "type": "string",
+      "description": "Page URL",
+      "example": "https://fastapi.tiangolo.com/tutorial/"
+    },
+    "page_title": {
+      "type": "string",
+      "description": "Page title",
+      "example": "FastAPI Tutorial - User Guide"
+    },
+    "word_count": {
+      "type": "integer",
+      "description": "Clean word count",
+      "example": 1420
+    },
+    "token_count": {
+      "type": "integer",
+      "description": "Estimated LLM tokens",
+      "example": 1890
+    },
+    "markdown": {
+      "type": "string",
+      "description": "Clean GitHub Flavored Markdown"
+    }
+  },
+  "views": {
+    "overview": {
+      "title": "Overview",
+      "description": "Crawled Markdown pages and token metrics",
+      "transformation": {
+        "fields": [
+          "url",
+          "page_title",
+          "word_count",
+          "token_count"
+        ]
+      },
+      "display": {
+        "component": "table"
+      }
+    }
+  }
+}

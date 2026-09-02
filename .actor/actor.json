@@ -1,0 +1,16 @@
+{
+  "actorSpecification": 1,
+  "name": "deep-markdown-crawler-ai",
+  "title": "DeepCrawl AI — Universal Website to Markdown Crawler Pro",
+  "description": "Crawl entire documentation portals, sitemaps, and domains into clean, LLM-ready Markdown without ads or noise for RAG and AI Agents.",
+  "version": "1.0.0",
+  "meta": {
+    "category": "AI"
+  },
+  "dockerfile": "./Dockerfile",
+  "input": "./input_schema.json",
+  "output": "./output_schema.json",
+  "storages": {
+    "dataset": "./dataset_schema.json"
+  }
+}
